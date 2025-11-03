@@ -12,6 +12,7 @@
   "dependencies": {
     "idb": "^8.0.3",
     "isomorphic-git": "^1.34.2",
+    "marked": "^16.4.1",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-router-dom": "^7.9.5",

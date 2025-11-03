@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { memoService } from '../services/memoService';
 import { Memo } from '../types';
+import { marked } from 'marked';
 
 const MemoEditPage: React.FC = () => {
   const { memoId } = useParams<{ memoId: string }>();
@@ -32,6 +33,10 @@ const MemoEditPage: React.FC = () => {
     }
   };
 
+  const getMarkdownPreview = () => {
+    return { __html: marked.parse(content) };
+  };
+
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">{title || 'New Memo'}</h1>
@@ -50,10 +55,10 @@ const MemoEditPage: React.FC = () => {
         </button>
       </div>
       {isPreview ? (
-        <div className="prose max-w-none border p-4 rounded-md bg-gray-50">
-          {/* Markdown preview will go here */}
-          <p>{content}</p>
-        </div>
+        <div
+          className="prose max-w-none border p-4 rounded-md bg-gray-50"
+          dangerouslySetInnerHTML={getMarkdownPreview()}
+        ></div>
       ) : (
         <textarea
           className="w-full h-96 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
