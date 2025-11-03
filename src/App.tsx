@@ -3,6 +3,7 @@ import { useAuthStore } from './stores/authStore';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import MemoEditPage from './pages/MemoEditPage';
+import HistoryPage from './pages/HistoryPage';
 
 function App() {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
@@ -20,6 +21,10 @@ function App() {
       <Route 
         path="/edit/:memoId" 
         element={isAuthenticated ? <MemoEditPage /> : <Navigate to="/login" />}
+      />
+      <Route 
+        path="/history" 
+        element={isAuthenticated ? <HistoryPage /> : <Navigate to="/login" />}
       />
     </Routes>
   );
