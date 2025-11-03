@@ -1,11 +1,13 @@
 # 実装計画
 
-- [ ] 1. プロジェクト初期設定とコア構造の構築
+- [x] 1. プロジェクト初期設定とTailwind CSS v4のセットアップ
   - Vite + React 19 + TypeScript プロジェクトの初期化
-  - 必要な依存関係のインストール（zustand, isomorphic-git, idb, tailwindcss等）
+  - 必要な依存関係のインストール（zustand, isomorphic-git, idb, tailwindcss@next, @tailwindcss/vite@next 等）
+  - `vite.config.ts` に `@tailwindcss/vite` プラグインを追加
+  - `src/index.css` に `@import "tailwindcss";` を追加
   - 基本的なディレクトリ構造とファイル構成の作成
   - TypeScript設定とESLint/Prettier設定
-  - _要件: 1.1, 2.1_
+  - _要件: 1.1, 2.1, 9.1_
 
 - [ ] 2. 基本的なデータモデルとインターフェースの定義
   - [ ] 2.1 TypeScript型定義の作成
