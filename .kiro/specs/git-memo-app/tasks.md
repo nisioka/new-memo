@@ -9,12 +9,12 @@
   - TypeScript設定とESLint/Prettier設定
   - _要件: 1.1, 2.1, 9.1_
 
-- [ ] 2. 基本的なデータモデルとインターフェースの定義
-  - [ ] 2.1 TypeScript型定義の作成
+- [x] 2. 基本的なデータモデルとインターフェースの定義
+  - [x] 2.1 TypeScript型定義の作成
     - Memo, User, CommitInfo, AppSettings等の型定義
     - サービスインターフェースの定義（AuthService, MemoService, GitService等）
     - _要件: 2.1, 4.1, 5.1_
-  - [ ] 2.2 Zustand ストアの基本構造実装
+  - [x] 2.2 Zustand ストアの基本構造実装
     - メモ管理用ストア、認証用ストア、設定用ストアの作成
     - 基本的なアクションとセレクターの実装
     - _要件: 2.1, 4.1_
