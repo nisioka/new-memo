@@ -4,6 +4,7 @@ import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import MemoEditPage from './pages/MemoEditPage';
 import HistoryPage from './pages/HistoryPage';
+import SettingsPage from './pages/SettingsPage';
 
 function App() {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
@@ -25,6 +26,10 @@ function App() {
       <Route 
         path="/history" 
         element={isAuthenticated ? <HistoryPage /> : <Navigate to="/login" />}
+      />
+      <Route 
+        path="/settings" 
+        element={isAuthenticated ? <SettingsPage /> : <Navigate to="/login" />}
       />
     </Routes>
   );
