@@ -20,7 +20,8 @@ export interface LocalCredentials {
  * 認証サービスのインターフェース
  */
 export interface AuthService {
-  loginWithGitHub(): Promise<AuthResult>;
+  initAuth(): Promise<void>;
+  loginWithGitHub(token: string): Promise<AuthResult>;
   loginLocal(credentials: LocalCredentials): Promise<AuthResult>;
   logout(): Promise<void>;
   getCurrentUser(): User | null;
@@ -66,6 +67,8 @@ export interface GitService {
 export interface SyncResult {
   success: boolean;
   details?: string;
+  conflict?: boolean;
+  files?: string[];
 }
 
 /**
@@ -89,4 +92,9 @@ export interface StorageService {
   saveSettings(settings: AppSettings): Promise<void>;
   loadSettings(): Promise<AppSettings>;
   clearCache(): Promise<void>;
+  saveCryptoKey(key: CryptoKey): Promise<void>;
+  loadCryptoKey(): Promise<CryptoKey | null>;
+  saveEncryptedToken(token: { iv: Uint8Array; encryptedData: ArrayBuffer }): Promise<void>;
+  loadEncryptedToken(): Promise<{ iv: Uint8Array; encryptedData: ArrayBuffer } | null>;
+  clearCryptoData(): Promise<void>;
 }

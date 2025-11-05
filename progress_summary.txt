@@ -1,0 +1,20 @@
+## Current Progress
+
+*   **Project Setup:** Successfully set up the project and resolved initial `pnpm dev` issues (e.g., `Buffer` polyfill).
+*   **GitHub OAuth Authentication:** Implemented PAT encryption/decryption, login page, auth store, and storage service integration.
+*   **GitHub API Integration:** Implemented push/pull functionality using `isomorphic-git` (including `http/web` client, `onAuth`, `corsProxy`).
+*   **Synchronization System:** Implemented auto-sync and conflict detection.
+*   **Offline/Online Status:** Implemented network status management and an offline indicator.
+*   **Storage Optimization:** Added functionality to clear local cache.
+*   **Integration Tests (Auth Flow):** Authentication flow tests are passing after addressing `indexedDB` and `Buffer` polyfills in `setupTests.ts`.
+
+## Current Blockers and Difficulties
+
+*   **`src/services/__tests__/git.test.ts` failing with `ENOENT: .`:**
+    *   **Problem:** The `should commit a file and get history` test consistently fails with `ENOENT: .` when `gitFs.promises.writeFile` is called.
+    *   **Debugging Attempts:**
+        *   Ensured `gitFs.promises.mkdir('/', { recursive: true })` and manual cleanup using `readdir`, `unlink`, `rmdir` in `beforeEach`.
+        *   Tried changing `filePath` to `./test.md`.
+        *   Attempted to use `git.writeBlob` and `git.updateRef` directly, but this resulted in `TypeError: __vi_import_0__.updateRef is not a function` due to `isomorphic-git` import style or `vitest` environment issues.
+    *   **Current Hypothesis:** The `Lightning FS` instance (`gitFs`) might not be correctly synchronized or initialized within the `isomorphic-git` repository context in the `vitest` environment, causing `writeFile` to fail to locate the root directory (`.`).
+    *   **Current Action (In Progress):** To address the synchronization/initialization issue, I am modifying `src/services/gitFs.ts` to export a `createGitFs` function. This function will return a new `FS` instance, ensuring a fresh `gitFs` for each test. I am currently updating `gitService.ts` and `memoService.ts` to use this new `createGitFs` function. I was in the middle of applying this change to `memoService.ts` when this summary was requested.

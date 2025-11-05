@@ -2,6 +2,12 @@ import type { Memo } from '../types';
 import type { MemoService } from '../services';
 import { storageService } from './storageService';
 import { gitService } from './gitService';
+import { createGitFs } from './gitFs';
+
+const gitFs = createGitFs();
+
+const gitFs = createGitFs();
+import { useMemoStore } from '../stores/memoStore';
 
 export const memoService: MemoService = {
   async createMemo(title: string, content: string): Promise<Memo> {
@@ -14,8 +20,22 @@ export const memoService: MemoService = {
       updatedAt: new Date(),
     };
 
+    try {
+      await gitFs.promises.mkdir('memos', { dir: true });
+      console.log('memos directory ensured.');
+    } catch (error) {
+      console.error('Error ensuring memos directory:', error);
+    }
     await storageService.saveMemo(newMemo);
+    try {
+      await gitFs.promises.writeFile(newMemo.filePath, newMemo.content);
+      console.log(`Memo file written: ${newMemo.filePath}`);
+    } catch (error) {
+      console.error(`Error writing memo file ${newMemo.filePath}:`, error);
+      throw error; // Re-throw to ensure the test fails
+    }
     await gitService.commit(`feat: create memo - ${title}`, [newMemo.filePath]);
+    useMemoStore.getState().addMemo(newMemo);
 
     return newMemo;
   },
@@ -33,7 +53,9 @@ export const memoService: MemoService = {
     };
 
     await storageService.saveMemo(updatedMemo);
+    await gitFs.promises.writeFile(updatedMemo.filePath, updatedMemo.content);
     await gitService.commit(`fix: update memo - ${updatedMemo.title}`, [updatedMemo.filePath]);
+    useMemoStore.getState().updateMemo(updatedMemo);
 
     return updatedMemo;
   },
@@ -47,6 +69,7 @@ export const memoService: MemoService = {
     await storageService.clearCache(); // Simplified: clear all for now
     // await gitService.deleteFile(existingMemo.filePath); // Git delete not implemented yet
     // await gitService.commit(`feat: delete memo - ${existingMemo.title}`, [existingMemo.filePath]);
+    useMemoStore.getState().removeMemo(id);
   },
 
   async getMemo(id: string): Promise<Memo> {
@@ -58,6 +81,8 @@ export const memoService: MemoService = {
   },
 
   async listMemos(): Promise<Memo[]> {
-    return await storageService.loadAllMemos();
+    const memos = await storageService.loadAllMemos();
+    useMemoStore.getState().setMemos(memos);
+    return memos;
   },
 };

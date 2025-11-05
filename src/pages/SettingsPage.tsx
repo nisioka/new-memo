@@ -14,10 +14,10 @@ const SettingsPage: React.FC = () => {
     });
   }, [setSettings]);
 
-  useEffect(() => {
-    // Save settings to storage whenever localSettings change
+  const handleSave = () => {
+    setSettings(localSettings);
     storageService.saveSettings(localSettings);
-  }, [localSettings]);
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
@@ -28,10 +28,31 @@ const SettingsPage: React.FC = () => {
     }));
   };
 
+  const handleClearCache = async () => {
+    if (window.confirm('Are you sure you want to clear all local data? This action cannot be undone.')) {
+      await storageService.clearCache();
+      window.location.reload();
+    }
+  };
+
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">Settings</h1>
       <div className="space-y-4">
+        <div>
+          <label htmlFor="githubRepo" className="block text-sm font-medium text-gray-700">
+            GitHub Repository URL
+          </label>
+          <input
+            type="text"
+            id="githubRepo"
+            name="githubRepo"
+            value={localSettings.githubRepo || ''}
+            onChange={handleChange}
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          />
+        </div>
+
         <div>
           <label htmlFor="autoSaveInterval" className="block text-sm font-medium text-gray-700">
             Auto Save Interval (minutes)
@@ -103,6 +124,24 @@ const SettingsPage: React.FC = () => {
           <label htmlFor="offlineMode" className="ml-2 block text-sm text-gray-900">
             Offline Mode
           </label>
+        </div>
+
+        <div className="pt-4">
+          <button
+            onClick={handleSave}
+            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          >
+            Save Settings
+          </button>
+        </div>
+
+        <div className="pt-4">
+          <button
+            onClick={handleClearCache}
+            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+          >
+            Clear Local Cache
+          </button>
         </div>
       </div>
     </div>
