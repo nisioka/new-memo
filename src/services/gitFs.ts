@@ -1,4 +1,5 @@
-import { openDB, IDBPDatabase } from 'idb';
+import { openDB } from 'idb';
+import type { IDBPDatabase } from 'idb';
 
 // This is a simplified fs implementation for isomorphic-git using IndexedDB.
 // It stores file contents in one object store and metadata (like modification time) in another.
@@ -75,7 +76,12 @@ export const gitFs = {
       return stats;
     },
 
-    async readdir(filepath: string): Promise<string[]> {
+    async lstat(filepath: string): Promise<any> {
+      // For simplicity, lstat can be the same as stat for now
+      return this.stat(filepath);
+    },
+
+    async readdir(_filepath: string): Promise<string[]> {
         const db = await getDB();
         const allKeys = await db.getAllKeys(FILE_CONTENT_STORE);
         // This is a simplified implementation. It doesn't handle directories properly
@@ -84,11 +90,11 @@ export const gitFs = {
     },
     
     // mkdir, rmdir are no-ops for this simple key-value store fs
-    async mkdir(filepath: string): Promise<void> {
+    async mkdir(_filepath: string): Promise<void> {
         return Promise.resolve();
     },
 
-    async rmdir(filepath: string): Promise<void> {
+    async rmdir(_filepath: string): Promise<void> {
         return Promise.resolve();
     },
   },

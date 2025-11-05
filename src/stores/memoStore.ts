@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { Memo } from '../types';
+import type { Memo } from '../types';
 
 interface MemoState {
   memos: Memo[];

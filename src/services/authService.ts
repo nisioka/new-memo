@@ -1,6 +1,6 @@
-import { AuthService, AuthResult, LocalCredentials } from '../services';
+import type { AuthService, AuthResult, LocalCredentials } from '../services';
 import { useAuthStore } from '../stores/authStore';
-import { User } from '../types';
+import type { User } from '../types';
 
 export const authService: AuthService = {
   async loginWithGitHub(): Promise<AuthResult> {

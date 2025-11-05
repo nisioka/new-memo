@@ -1,5 +1,5 @@
-import { Memo, CommitInfo } from '../types';
-import { MemoService } from '../services';
+import type { Memo } from '../types';
+import type { MemoService } from '../services';
 import { storageService } from './storageService';
 import { gitService } from './gitService';
 

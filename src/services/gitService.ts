@@ -1,8 +1,7 @@
 import git from 'isomorphic-git';
-import http from 'isomorphic-git/http/web';
 import { gitFs } from './gitFs';
-import { GitService, DiffResult } from '../services';
-import { CommitInfo } from '../types';
+import type { GitService, DiffResult } from '../services';
+
 
 const dir = '/'; // Root directory in our virtual file system
 
@@ -35,7 +34,7 @@ export const gitService: GitService = {
   },
 
   async getHistory(filePath) {
-    const commits = await git.log({ fs: gitFs, dir, filepath });
+    const commits = await git.log({ fs: gitFs, dir, filepath: filePath });
     return commits.map((c) => ({
       hash: c.oid,
       message: c.commit.message,

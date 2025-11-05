@@ -1,6 +1,7 @@
-import { openDB, DBSchema, IDBPDatabase } from 'idb';
-import { Memo, AppSettings } from '../types';
-import { StorageService } from '../services';
+import { openDB } from 'idb';
+import type { DBSchema, IDBPDatabase } from 'idb';
+import type { Memo, AppSettings } from '../types';
+import type { StorageService } from '../services';
 
 const DB_NAME = 'GitMemoDB';
 const DB_VERSION = 1;

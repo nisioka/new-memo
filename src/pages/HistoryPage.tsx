@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { gitService } from '../services/gitService';
-import { CommitInfo } from '../types';
+import type { CommitInfo } from '../types';
 
 const HistoryPage: React.FC = () => {
   const [commits, setCommits] = useState<CommitInfo[]>([]);

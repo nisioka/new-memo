@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { memoService } from '../services/memoService';
-import { Memo } from '../types';
+import type { Memo } from '../types';
 import { marked } from 'marked';
 
 const MemoEditPage: React.FC = () => {

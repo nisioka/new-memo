@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { AppSettings } from '../types';
+import type { AppSettings } from '../types';
 
 interface SettingsState {
   settings: AppSettings;

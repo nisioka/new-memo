@@ -1,4 +1,4 @@
-import { User, Memo, CommitInfo, AppSettings } from './types';
+import type { User, Memo, CommitInfo, AppSettings } from './types';
 
 /**
  * 認証結果
