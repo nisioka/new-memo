@@ -17,6 +17,7 @@ jobs:
       with:
         node-version: '20'
         cache: 'pnpm'
+    - uses: pnpm/action-setup@v4
     - name: Install dependencies
       run: pnpm install --no-frozen-lockfile
     - name: Run unit tests
@@ -33,4 +34,4 @@ jobs:
       with:
         name: playwright-report
         path: playwright-report/
-        retention-days: 30
+        retention-days: 5
