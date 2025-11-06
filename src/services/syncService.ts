@@ -31,7 +31,8 @@ export const syncService: SyncService = {
       return { success: true };
     } catch (error) {
       if (error instanceof Errors.MergeConflictError) {
-        return { success: false, details: 'Merge conflict detected', conflict: true, files: error.data };
+        const conflictedFiles = (error.data as any)?.filepaths || [];
+        return { success: false, details: 'Merge conflict detected', conflict: true, files: conflictedFiles };
       }
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       return { success: false, details: errorMessage };

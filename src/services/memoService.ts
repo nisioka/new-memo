@@ -5,8 +5,6 @@ import { gitService } from './gitService';
 import { createGitFs } from './gitFs';
 
 const gitFs = createGitFs();
-
-const gitFs = createGitFs();
 import { useMemoStore } from '../stores/memoStore';
 
 export const memoService: MemoService = {
@@ -21,10 +19,12 @@ export const memoService: MemoService = {
     };
 
     try {
-      await gitFs.promises.mkdir('memos', { dir: true });
-      console.log('memos directory ensured.');
+      await gitFs.promises.mkdir('memos');
     } catch (error) {
-      console.error('Error ensuring memos directory:', error);
+      // Ignore if the directory already exists, but log other errors.
+      if ((error as any).code !== 'EEXIST') {
+        console.error('Error creating memos directory:', error);
+      }
     }
     await storageService.saveMemo(newMemo);
     try {
@@ -69,7 +69,7 @@ export const memoService: MemoService = {
     await storageService.clearCache(); // Simplified: clear all for now
     // await gitService.deleteFile(existingMemo.filePath); // Git delete not implemented yet
     // await gitService.commit(`feat: delete memo - ${existingMemo.title}`, [existingMemo.filePath]);
-    useMemoStore.getState().removeMemo(id);
+    useMemoStore.getState().deleteMemo(id);
   },
 
   async getMemo(id: string): Promise<Memo> {
