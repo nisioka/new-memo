@@ -1,5 +1,5 @@
 import { Suspense, useEffect } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { useAuthStore } from './stores/authStore';
 import ErrorNotification from './components/ErrorNotification';
 import OfflineIndicator from './components/OfflineIndicator';
@@ -11,8 +11,12 @@ import MemoEditPage from './pages/MemoEditPage';
 import HistoryPage from './pages/HistoryPage';
 import SettingsPage from './pages/SettingsPage';
 
+import ComponentTestPage from './pages/ComponentTestPage';
+
 function App() {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const location = useLocation();
+  const isTestRoute = location.pathname.startsWith('/test/');
 
   useEffect(() => {
     authService.initAuth();
@@ -42,10 +46,14 @@ function App() {
             path="/settings" 
             element={isAuthenticated ? <SettingsPage /> : <Navigate to="/login" />}
           />
+          <Route 
+            path="/test/:componentName" 
+            element={<ComponentTestPage />}
+          />
         </Routes>
       </Suspense>
-      <ErrorNotification />
-      <OfflineIndicator />
+      {!isTestRoute && <ErrorNotification />}
+      {!isTestRoute && <OfflineIndicator />}
     </>
   );
 }
