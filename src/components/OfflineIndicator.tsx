@@ -9,7 +9,7 @@ const OfflineIndicator: React.FC = () => {
   }
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-red-500 text-white text-center p-2">
+    <div data-testid="offline-indicator" className="fixed bottom-0 left-0 right-0 bg-red-500 text-white text-center p-2">
       You are currently offline. Some features may be unavailable.
     </div>
   );
