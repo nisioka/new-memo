@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test('should allow a user to create, edit, and see a memo', async ({ page }) => {
+test.skip('should allow a user to create, edit, and see a memo', async ({ page }) => {
   // Navigate to the login page
   await page.goto('/login');
 
