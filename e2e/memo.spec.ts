@@ -15,6 +15,7 @@ test('should allow a user to create, edit, and see a memo', async ({ page }) => 
   await page.getByRole('button', { name: 'Create Memo' }).click();
 
   // Wait for navigation to the edit page
+  await page.waitForURL(/\/edit\/.*/);
   await expect(page).toHaveURL(/\/edit\/.*/);
 
   // Edit the memo
